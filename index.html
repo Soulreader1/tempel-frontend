@@ -28,7 +28,7 @@
       fetch("https://tempel-van-transformatie.vercel.app/api/kamer1")
         .then((res) => res.json())
         .then((data) => {
-          document.getElementById("kamer-content").innerText = data.content;
+          document.getElementById("kamer-content").innerText = data.welkom;
         })
         .catch((err) => {
           document.getElementById("kamer-content").innerText = "Fout bij het laden van Kamer 1.";
