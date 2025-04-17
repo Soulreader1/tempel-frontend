@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tempel van Transformatie</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 2rem;
+        color: #222;
+      }
+      .kamer {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welkom in Kamer 1</h1>
+    <div class="kamer" id="kamer-content">Laden...</div>
+
+    <script>
+      fetch("https://api-kamer1-grak5i1aj-soulreaders-projects.vercel.app/api/kamer1")
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById("kamer-content").innerText = data.content;
+        })
+        .catch((err) => {
+          document.getElementById("kamer-content").innerText = "Fout bij het laden van Kamer 1.";
+          console.error(err);
+        });
+    </script>
+  </body>
+</html>
