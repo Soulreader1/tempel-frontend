@@ -26,19 +26,13 @@
 
     <script>
       fetch("https://tempel-van-transformatie.vercel.app/api/kamer1")
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return res.json();
-        })
+        .then((res) => res.json())
         .then((data) => {
           document.getElementById("kamer-content").innerText = data.welkom;
         })
         .catch((err) => {
-          document.getElementById("kamer-content").innerText =
-            "Fout bij het laden van Kamer 1.";
-          console.error("Fetch error:", err);
+          document.getElementById("kamer-content").innerText = "Fout bij het laden van Kamer 1.";
+          console.error(err);
         });
     </script>
   </body>
