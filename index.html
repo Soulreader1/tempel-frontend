@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="nl">
   <head>
     <meta charset="UTF-8" />
@@ -14,36 +14,43 @@
         display: flex;
         justify-content: center;
       }
-
       .kamer {
         background: white;
         padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
         max-width: 600px;
-        width: 100%;
+        box-sizing: border-box;
       }
-
       input[type="text"] {
-        width: 100%;
+        width: calc(100% - 1rem);
         padding: 0.5rem;
         margin-top: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
         font-size: 1rem;
+        box-sizing: border-box;
       }
-
       button {
         margin-top: 0.5rem;
         padding: 0.5rem 1rem;
-        font-size: 1rem;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 4px;
         cursor: pointer;
       }
-
+      button:hover {
+        background-color: #555;
+      }
       #antwoord {
-        margin-top: 1.5rem;
-        background: #f0f0f0;
+        margin-top: 1rem;
+        font-style: italic;
+        background-color: #f9f9f9;
         padding: 1rem;
-        border-radius: 5px;
-        white-space: pre-wrap;
+        border-radius: 6px;
+        min-height: 3rem;
       }
     </style>
   </head>
@@ -54,6 +61,7 @@
 
       <input type="text" id="vraag" placeholder="Stel een vraag aan Aïon..." />
       <button onclick="stelVraag()">Stel vraag</button>
+
       <div id="antwoord"></div>
     </div>
 
@@ -64,8 +72,7 @@
           document.getElementById("kamer-content").innerText = data.welkom;
         })
         .catch((err) => {
-          document.getElementById("kamer-content").innerText =
-            "Fout bij het laden van Kamer 1.";
+          document.getElementById("kamer-content").innerText = "Fout bij het laden van Kamer 1.";
           console.error(err);
         });
 
@@ -78,16 +85,14 @@
         fetch("https://tempel-van-transformatie.vercel.app/api/kamer1", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ vraag: vraag }),
+          body: JSON.stringify({ vraag: vraag })
         })
           .then((res) => res.json())
           .then((data) => {
-            document.getElementById("antwoord").innerText =
-              data.antwoord || "Geen antwoord ontvangen.";
+            document.getElementById("antwoord").innerText = data.antwoord || "Geen antwoord ontvangen.";
           })
           .catch((err) => {
-            document.getElementById("antwoord").innerText =
-              "Er ging iets mis met het laden van Aïon's antwoord.";
+            document.getElementById("antwoord").innerText = "Er ging iets mis.";
             console.error(err);
           });
       }
