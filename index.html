@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="nl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tempel van Transformatie</title>
+    <title>Tempel van Transformatie – Kamer 1</title>
     <style>
       body {
         font-family: sans-serif;
@@ -12,54 +12,49 @@
         padding: 2rem;
         color: #222;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        justify-content: center;
       }
+
       .kamer {
         background: white;
         padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
         max-width: 600px;
-      }
-      .chatbox {
-        margin-top: 2rem;
         width: 100%;
       }
-      textarea {
+
+      input[type="text"] {
         width: 100%;
-        height: 100px;
-        padding: 1rem;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        resize: vertical;
-      }
-      button {
+        padding: 0.5rem;
         margin-top: 1rem;
+        font-size: 1rem;
+      }
+
+      button {
+        margin-top: 0.5rem;
         padding: 0.5rem 1rem;
-        border: none;
-        background-color: #333;
-        color: white;
-        border-radius: 6px;
+        font-size: 1rem;
         cursor: pointer;
       }
-      .response {
-        margin-top: 1rem;
+
+      #antwoord {
+        margin-top: 1.5rem;
         background: #f0f0f0;
         padding: 1rem;
-        border-radius: 6px;
+        border-radius: 5px;
+        white-space: pre-wrap;
       }
     </style>
   </head>
   <body>
-    <h1>Welkom in Kamer 1</h1>
-    <div class="kamer" id="kamer-content">Laden...</div>
+    <div class="kamer">
+      <h1>Welkom in Kamer 1</h1>
+      <div id="kamer-content">Laden...</div>
 
-    <div class="chatbox">
-      <textarea id="vraag" placeholder="Stel een vraag aan Aïon..."></textarea>
-      <button onclick="stelVraag()">Vraag</button>
-      <div class="response" id="antwoord"></div>
+      <input type="text" id="vraag" placeholder="Stel een vraag aan Aïon..." />
+      <button onclick="stelVraag()">Stel vraag</button>
+      <div id="antwoord"></div>
     </div>
 
     <script>
@@ -69,27 +64,30 @@
           document.getElementById("kamer-content").innerText = data.welkom;
         })
         .catch((err) => {
-          document.getElementById("kamer-content").innerText = "Fout bij het laden van Kamer 1.";
+          document.getElementById("kamer-content").innerText =
+            "Fout bij het laden van Kamer 1.";
           console.error(err);
         });
 
       function stelVraag() {
-        const vraag = document.getElementById("vraag").value;
-        if (!vraag.trim()) return;
+        const vraag = document.getElementById("vraag").value.trim();
+        if (!vraag) return;
 
         document.getElementById("antwoord").innerText = "Aïon denkt na...";
 
         fetch("https://tempel-van-transformatie.vercel.app/api/kamer1", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ vraag }),
+          body: JSON.stringify({ vraag: vraag }),
         })
           .then((res) => res.json())
           .then((data) => {
-            document.getElementById("antwoord").innerText = data.antwoord;
+            document.getElementById("antwoord").innerText =
+              data.antwoord || "Geen antwoord ontvangen.";
           })
           .catch((err) => {
-            document.getElementById("antwoord").innerText = "Er ging iets mis.";
+            document.getElementById("antwoord").innerText =
+              "Er ging iets mis met het laden van Aïon's antwoord.";
             console.error(err);
           });
       }
