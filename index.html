@@ -31,12 +31,13 @@
         color: #555;
       }
       input[type="text"] {
-        width: 86%;
+        width: 100%;
         padding: 1rem;
         margin-top: 1rem;
         border: 2px solid goldenrod;
         border-radius: 6px;
         font-size: 1rem;
+        box-sizing: border-box;
       }
     </style>
   </head>
@@ -51,8 +52,8 @@
     </div>
 
     <script>
-      // Kamertekst laden
-      fetch("https://tempel-van-transformatie.vercel.app/api/kamer1")
+      // Kamertekst laden (bovenste blok)
+      fetch("/api/kamer1")
         .then(res => res.json())
         .then(data => {
           document.getElementById("kamer-content").innerText = data.welkom;
@@ -62,7 +63,7 @@
           console.error(err);
         });
 
-      // Chat
+      // Chatfunctie (onderste blok)
       const input = document.getElementById("input");
       const messages = document.getElementById("messages");
 
