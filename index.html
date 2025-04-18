@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tempel van Transformatie – Kamer 1</title>
+    <title>Tempel van Transformatie</title>
     <style>
       body {
         font-family: sans-serif;
@@ -16,63 +16,62 @@
         background: white;
         padding: 2rem;
         border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         margin: auto;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       }
-      input, button {
-        padding: 0.75rem;
-        font-size: 1rem;
-        margin-top: 1rem;
-        width: calc(100% - 1.5rem);
-        box-sizing: border-box;
+      #chat {
+        margin-top: 2rem;
       }
-      #response {
-        margin-top: 1.5rem;
+      .user, .aion {
+        margin: 1rem 0;
+      }
+      .aion {
         font-style: italic;
+        color: #555;
       }
     </style>
   </head>
   <body>
-    <div class="kamer">
-      <h1>Welkom in Kamer 1</h1>
-      <div id="kamer-text">Laden...</div>
+    <h1>Welkom in Kamer 1</h1>
+    <div class="kamer" id="kamer-content">Laden...</div>
 
-      <input type="text" id="input" placeholder="Wat wil je zeggen tegen Aïon?" />
-      <button onclick="stuurVraag()">Verzend</button>
-
-      <div id="response"></div>
+    <div class="kamer" id="chat">
+      <div id="messages"></div>
+      <input type="text" id="input" placeholder="Stel een vraag aan Aïon..." style="width: 100%; padding: 1rem; margin-top: 1rem;" />
     </div>
 
     <script>
+      // Laad kamer 1 content
       fetch("https://tempel-van-transformatie.vercel.app/api/kamer1")
-        .then((res) => res.json())
-        .then((data) => {
-          document.getElementById("kamer-text").innerText = data.welkom;
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("kamer-content").innerText = data.welkom;
         })
-        .catch((err) => {
-          document.getElementById("kamer-text").innerText = "Fout bij het laden van Kamer 1.";
+        .catch(err => {
+          document.getElementById("kamer-content").innerText = "Fout bij het laden van Kamer 1.";
           console.error(err);
         });
 
-      function stuurVraag() {
-        const vraag = document.getElementById("input").value;
-        document.getElementById("response").innerText = "Aïon denkt na...";
+      // Eenvoudige simulatie van Aïon (placeholder)
+      const input = document.getElementById("input");
+      const messages = document.getElementById("messages");
 
-        fetch("https://tempel-van-transformatie.vercel.app/api/aion", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ vraag: vraag })
-        })
-          .then(res => res.json())
-          .then(data => {
-            document.getElementById("response").innerText = data.antwoord;
-          })
-          .catch(err => {
-            document.getElementById("response").innerText = "Fout bij communiceren met Aïon.";
-            console.error(err);
-          });
-      }
+      input.addEventListener("keypress", function (e) {
+        if (e.key === "Enter" && input.value.trim()) {
+          const userMsg = input.value;
+          messages.innerHTML += `<div class="user"><strong>Jij:</strong> ${userMsg}</div>`;
+          input.value = "";
+
+          // Antwoord van Aïon (simulatie - later API)
+          let antwoord = "Ik ben Aïon. Wat wil je begrijpen in deze Kamer?";
+          if (userMsg.toLowerCase().includes("waarom")) antwoord = "Omdat je hier bent om iets in jezelf te zien.";
+          if (userMsg.toLowerCase().includes("wat is deze kamer")) antwoord = "Kamer 1 is het begin. De drempel van je innerlijke reis.";
+
+          messages.innerHTML += `<div class="aion"><strong>Aïon:</strong> ${antwoord}</div>`;
+          messages.scrollTop = messages.scrollHeight;
+        }
+      });
     </script>
   </body>
 </html>
