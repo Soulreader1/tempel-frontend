@@ -20,9 +20,6 @@
         max-width: 600px;
         margin: 2rem auto;
       }
-      #chat {
-        margin-top: 2rem;
-      }
       .user, .aion {
         margin: 1rem 0;
       }
@@ -37,7 +34,6 @@
         border: 2px solid goldenrod;
         border-radius: 6px;
         font-size: 1rem;
-        box-sizing: border-box;
       }
     </style>
   </head>
@@ -52,8 +48,8 @@
     </div>
 
     <script>
-      // Kamertekst laden (bovenste blok)
-      fetch("/api/kamer1")
+      // Kamertekst laden
+      fetch("https://tempel-van-transformatie.vercel.app/api/kamer1")
         .then(res => res.json())
         .then(data => {
           document.getElementById("kamer-content").innerText = data.welkom;
@@ -63,7 +59,7 @@
           console.error(err);
         });
 
-      // Chatfunctie (onderste blok)
+      // Chat
       const input = document.getElementById("input");
       const messages = document.getElementById("messages");
 
@@ -75,7 +71,7 @@
           messages.innerHTML += `<div class="aion"><strong>Aïon:</strong> (denken...)</div>`;
 
           try {
-            const res = await fetch("/api/chat", {
+            const res = await fetch("https://tempel-van-transformatie.vercel.app/api/chat", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ message: userMsg })
