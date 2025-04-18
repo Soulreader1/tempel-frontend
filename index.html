@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tempel van Transformatie – Kamer 1</title>
+    <title>Tempel van Transformatie</title>
     <style>
       body {
         font-family: sans-serif;
@@ -30,30 +30,29 @@
         font-style: italic;
         color: #555;
       }
+      #input {
+        width: calc(100% - 2rem);
+        padding: 1rem;
+        margin-top: 1rem;
+        box-sizing: border-box;
+        border: 2px solid goldenrod;
+        border-radius: 5px;
+      }
     </style>
   </head>
   <body>
-    <h1 style="text-align:center;">Welkom in Kamer 1</h1>
+    <h1 style="text-align: center;">Welkom in Kamer 1</h1>
 
     <div class="kamer" id="kamer-content">Laden...</div>
 
     <div class="kamer" id="chat">
       <div id="messages"></div>
-      <input
-        type="text"
-        id="input"
-        placeholder="Stel een vraag aan Aïon..."
-        style="width: 100%; padding: 1rem; margin-top: 1rem;"
-      />
+      <input type="text" id="input" placeholder="Stel een vraag aan Aïon..." />
     </div>
 
     <script>
-      // Vervang deze URL door je werkende API-link
-      const kamerApiUrl = "https://tempel-van-transformatie.vercel.app/api/kamer1";
-      const aionApiUrl = "https://tempel-van-transformatie.vercel.app/api/aion";
-
-      // Kamerinhoud ophalen
-      fetch(kamerApiUrl)
+      // Kamerdata ophalen
+      fetch("https://tempel-van-transformatie.vercel.app/api/kamer1")
         .then(res => res.json())
         .then(data => {
           document.getElementById("kamer-content").innerText = data.welkom;
@@ -63,7 +62,7 @@
           console.error(err);
         });
 
-      // Chatboxlogica
+      // Simulatie van Aïon
       const input = document.getElementById("input");
       const messages = document.getElementById("messages");
 
@@ -73,22 +72,24 @@
           messages.innerHTML += `<div class="user"><strong>Jij:</strong> ${userMsg}</div>`;
           input.value = "";
 
-          fetch(aionApiUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ vraag: userMsg }),
-          })
-            .then(res => res.json())
-            .then(data => {
-              messages.innerHTML += `<div class="aion"><strong>Aïon:</strong> ${data.antwoord}</div>`;
-              messages.scrollTop = messages.scrollHeight;
-            })
-            .catch((err) => {
-              messages.innerHTML += `<div class="aion"><strong>Aïon:</strong> (geen antwoord)</div>`;
-              console.error(err);
-            });
+          let antwoord = "(geen antwoord)";
+
+          const msg = userMsg.toLowerCase();
+
+          if (msg.includes("waarom")) {
+            antwoord = "Omdat je hier bent om iets in jezelf te zien.";
+          } else if (msg.includes("kamer")) {
+            antwoord = "Kamer 1 is het begin. De drempel van je innerlijke reis.";
+          } else if (msg.includes("wie ben jij")) {
+            antwoord = "Ik ben Aïon, de stem van deze Tempel.";
+          } else if (msg.includes("wat moet ik doen")) {
+            antwoord = "Luister, voel, wees aanwezig. De antwoorden komen vanzelf.";
+          } else {
+            antwoord = "Ik hoor je. Stel je vraag nog eens met heldere intentie.";
+          }
+
+          messages.innerHTML += `<div class="aion"><strong>Aïon:</strong> ${antwoord}</div>`;
+          messages.scrollTop = messages.scrollHeight;
         }
       });
     </script>
