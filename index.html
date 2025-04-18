@@ -18,25 +18,26 @@
         border-radius: 8px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         max-width: 600px;
+        width: 100%;
         margin: 2rem auto;
+        box-sizing: border-box;
       }
-      #chat {
-        margin-top: 2rem;
+      #chat input {
+        width: 100%;
+        padding: 1rem;
+        margin-top: 1rem;
+        box-sizing: border-box;
+        border: 2px solid goldenrod;
+        border-radius: 6px;
+        font-size: 1rem;
       }
       .user, .aion {
         margin: 1rem 0;
+        word-wrap: break-word;
       }
       .aion {
         font-style: italic;
         color: #555;
-      }
-      input[type="text"] {
-        width: 100%;
-        padding: 1rem;
-        margin-top: 1rem;
-        border: 2px solid goldenrod;
-        border-radius: 6px;
-        font-size: 1rem;
       }
     </style>
   </head>
@@ -51,8 +52,7 @@
     </div>
 
     <script>
-      // Kamertekst laden
-      fetch("https://tempel-van-transformatie.vercel.app/api/kamer1")
+      fetch("/api/kamer1")
         .then(res => res.json())
         .then(data => {
           document.getElementById("kamer-content").innerText = data.welkom;
@@ -62,31 +62,29 @@
           console.error(err);
         });
 
-      // Chat
       const input = document.getElementById("input");
       const messages = document.getElementById("messages");
 
-      input.addEventListener("keypress", async function (e) {
+      input.addEventListener("keypress", function (e) {
         if (e.key === "Enter" && input.value.trim()) {
-          const userMsg = input.value;
-          messages.innerHTML += `<div class="user"><strong>Jij:</strong> ${userMsg}</div>`;
+          const vraag = input.value;
+          messages.innerHTML += `<div class="user"><strong>Jij:</strong> ${vraag}</div>`;
           input.value = "";
-          messages.innerHTML += `<div class="aion"><strong>Aïon:</strong> (denken...)</div>`;
 
-          try {
-            const res = await fetch("/api/chat", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message: userMsg })
+          fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ vraag })
+          })
+            .then(res => res.json())
+            .then(data => {
+              const antwoord = data.antwoord || "(geen antwoord)";
+              messages.innerHTML += `<div class="aion"><strong>Aïon:</strong> ${antwoord}</div>`;
+              messages.scrollTop = messages.scrollHeight;
+            })
+            .catch(() => {
+              messages.innerHTML += `<div class="aion"><strong>Aïon:</strong> Er ging iets mis...</div>`;
             });
-            const data = await res.json();
-            const antwoord = data.antwoord || "(geen antwoord)";
-            messages.innerHTML = messages.innerHTML.replace("(denken...)", antwoord);
-            messages.scrollTop = messages.scrollHeight;
-          } catch (err) {
-            console.error(err);
-            messages.innerHTML = messages.innerHTML.replace("(denken...)", "Er ging iets mis...");
-          }
         }
       });
     </script>
