@@ -17,6 +17,18 @@
         padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: auto;
+      }
+      #chat {
+        margin-top: 2rem;
+      }
+      .user, .aion {
+        margin: 1rem 0;
+      }
+      .aion {
+        font-style: italic;
+        color: #555;
       }
     </style>
   </head>
@@ -24,16 +36,42 @@
     <h1>Welkom in Kamer 1</h1>
     <div class="kamer" id="kamer-content">Laden...</div>
 
+    <div class="kamer" id="chat">
+      <div id="messages"></div>
+      <input type="text" id="input" placeholder="Stel een vraag aan Aïon..." style="width: 100%; padding: 1rem; margin-top: 1rem;" />
+    </div>
+
     <script>
+      // Laad kamer 1 content
       fetch("https://tempel-van-transformatie.vercel.app/api/kamer1")
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.json())
+        .then(data => {
           document.getElementById("kamer-content").innerText = data.welkom;
         })
-        .catch((err) => {
+        .catch(err => {
           document.getElementById("kamer-content").innerText = "Fout bij het laden van Kamer 1.";
-          console.error("Fout bij ophalen:", err);
+          console.error(err);
         });
+
+      // Eenvoudige simulatie van Aïon (placeholder)
+      const input = document.getElementById("input");
+      const messages = document.getElementById("messages");
+
+      input.addEventListener("keypress", function (e) {
+        if (e.key === "Enter" && input.value.trim()) {
+          const userMsg = input.value;
+          messages.innerHTML += `<div class="user"><strong>Jij:</strong> ${userMsg}</div>`;
+          input.value = "";
+
+          // Antwoord van Aïon (simulatie - later API)
+          let antwoord = "Ik ben Aïon. Wat wil je begrijpen in deze Kamer?";
+          if (userMsg.toLowerCase().includes("waarom")) antwoord = "Omdat je hier bent om iets in jezelf te zien.";
+          if (userMsg.toLowerCase().includes("wat is deze kamer")) antwoord = "Kamer 1 is het begin. De drempel van je innerlijke reis.";
+
+          messages.innerHTML += `<div class="aion"><strong>Aïon:</strong> ${antwoord}</div>`;
+          messages.scrollTop = messages.scrollHeight;
+        }
+      });
     </script>
   </body>
 </html>
