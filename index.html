@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tempel van Transformatie</title>
+    <title>Tempel van Transformatie – Kamer 1</title>
     <style>
       body {
         font-family: sans-serif;
@@ -19,6 +19,9 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         margin: 2rem auto;
+      }
+      #chat {
+        margin-top: 2rem;
       }
       .user, .aion {
         margin: 1rem 0;
@@ -48,7 +51,7 @@
     </div>
 
     <script>
-      // Kamertekst laden
+      // Laad Kamer 1 welkomtekst
       fetch("https://tempel-van-transformatie.vercel.app/api/kamer1")
         .then(res => res.json())
         .then(data => {
@@ -59,7 +62,7 @@
           console.error(err);
         });
 
-      // Chat
+      // Chatfunctie
       const input = document.getElementById("input");
       const messages = document.getElementById("messages");
 
