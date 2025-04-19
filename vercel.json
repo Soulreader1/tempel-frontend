@@ -1,1 +1,12 @@
-
+{
+  "rewrites": [
+    {
+      "source": "/api/chat",
+      "destination": "https://tempel-van-transformatie.vercel.app/api/chat"
+    },
+    {
+      "source": "/api/kamer1",
+      "destination": "https://tempel-van-transformatie.vercel.app/api/kamer1"
+    }
+  ]
+}
