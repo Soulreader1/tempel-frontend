@@ -1,8 +1,5 @@
 {
   "rewrites": [
-    {
-      "source": "/api/chat",
-      "destination": "https://tempel-van-transformatie.vercel.app/api/chat"
-    }
+    { "source": "/api/(.*)", "destination": "https://tempel-van-transformatie.vercel.app/api/$1" }
   ]
 }
