@@ -1,5 +1,10 @@
 {
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://tempel-van-transformatie.vercel.app/api/$1" }
-  ]
+  "functions": {
+    "api/kamer1.js": {
+      "runtime": "nodejs18.x"
+    },
+    "api/chat.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }
